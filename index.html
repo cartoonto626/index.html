@@ -3,93 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>毛根サバイバー：GOD FEVER</title>
+    <title>毛根サバイバー：ニキビの逆襲</title>
     <style>
-        :root { --p-color: #f1c40f; }
+        :root { --p-color: #00ffcc; }
         body { background: #000; color: #fff; font-family: 'Arial Black', sans-serif; margin: 0; overflow: hidden; touch-action: manipulation; text-align: center; }
-        
-        /* 派手なステータスバー */
-        #stats { background: linear-gradient(180deg, #333, #000); padding: 15px; font-size: 20px; border-bottom: 3px solid var(--p-color); display: flex; justify-content: space-around; align-items: center; padding-top: 50px; text-shadow: 0 0 10px var(--p-color); }
-        
-        #fever-container { width: 100px; height: 15px; background: #222; border: 1px solid #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 0 15px #f0f; }
-        #fever-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #f0f, #0ff, #f0f); background-size: 200% 100%; animation: move 1s linear infinite; }
-        @keyframes move { from { background-position: 0% 0%; } to { background-position: 100% 0%; } }
+        #stats { background: #111; padding: 15px; font-size: 18px; border-bottom: 3px solid var(--p-color); display: flex; justify-content: space-around; padding-top: 50px; }
+        #fever-container { width: 80px; height: 12px; background: #222; border: 1px solid #fff; border-radius: 6px; overflow: hidden; }
+        #fever-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #f0f, #0ff); }
 
-        /* おじさんステージ：揺れる・光る */
-        #stage-container { position: relative; width: 320px; height: 320px; margin: 20px auto; perspective: 1000px; }
+        #stage-container { position: relative; width: 320px; height: 320px; margin: 20px auto; }
         #stage { 
-            position: absolute; width: 100%; height: 100%; border-radius: 80px 80px 130px 130px; overflow: hidden;
-            background: radial-gradient(circle at 50% 40%, #ffdbac 0%, #f1c27d 100%);
-            border: 4px solid #444; transition: 0.1s;
+            position: absolute; width: 100%; height: 100%; border-radius: 80px 80px 130px 130px; 
+            background: radial-gradient(circle at 50% 40%, #ffdbac 0%, #d4a373 100%);
+            border: 4px solid #333; transition: 0.1s;
         }
-        
-        /* おじさん覚醒エフェクト */
-        .aura { position: absolute; width: 110%; height: 110%; top: -5%; left: -5%; border-radius: inherit; background: var(--p-color); filter: blur(20px); opacity: 0; z-index: -1; }
 
         .eye { position: absolute; width: 50px; height: 40px; background: #fff; border-radius: 50%; top: 120px; border: 2px solid #000; }
         .eye.left { left: 60px; } .eye.right { right: 60px; }
-        .eye::after { content: ''; position: absolute; width: 20px; height: 20px; background: #000; border-radius: 50%; left: 15px; top: 10px; }
-        
-        /* 毛のバリエーション */
+        .eye::after { content: ''; position: absolute; width: 18px; height: 18px; background: #000; border-radius: 50%; left: 16px; top: 11px; }
+
         #hair-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; }
-        .hair { position: absolute; width: 8px; border-radius: 10px; transform-origin: bottom center; cursor: pointer; transition: 0.1s; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); }
+        .hair { position: absolute; width: 8px; border-radius: 10px; transform-origin: bottom center; cursor: pointer; pointer-events: auto; }
         .normal { background: #000; height: 50px; }
-        .hard { background: #00f; height: 60px; border: 2px solid #fff; }
-        .gold { background: linear-gradient(#ff0, #f80); height: 70px; box-shadow: 0 0 20px #ff0; animation: blink 0.2s infinite; }
-        @keyframes blink { 50% { filter: brightness(2); } }
+        .hard { background: #555; height: 60px; border: 2px solid #00ffcc; }
+        .gold { background: #ff0; height: 70px; box-shadow: 0 0 15px #ff0; }
 
-        /* ボタン */
-        .btn-area { display: flex; justify-content: center; gap: 15px; padding: 15px; }
-        .btn { background: #222; color: #fff; border: 2px solid var(--p-color); padding: 15px; border-radius: 15px; flex: 1; font-weight: bold; box-shadow: 0 5px 0 #000; }
-        .btn:active { transform: translateY(5px); box-shadow: none; background: var(--p-color); color: #000; }
+        /* 復活したニキビ */
+        .nikibi { 
+            position: absolute; width: 30px; height: 30px; 
+            background: radial-gradient(circle, #ff4444, #880000); 
+            border: 3px solid #fff; border-radius: 50%; 
+            z-index: 20; cursor: pointer; pointer-events: auto;
+            animation: pulse 0.3s infinite alternate;
+        }
+        @keyframes pulse { from { transform: scale(1); box-shadow: 0 0 5px red; } to { transform: scale(1.2); box-shadow: 0 0 20px red; } }
 
-        /* ポップアップ演出 */
-        .shout { position: absolute; font-weight: 900; pointer-events: none; animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; z-index: 100; font-size: 30px; text-shadow: 3px 3px 0 #000; }
-        @keyframes pop { 0% { transform: scale(0) rotate(-20deg); opacity: 1; } 50% { transform: scale(1.5) rotate(10deg); } 100% { transform: scale(1) translateY(-100px); opacity: 0; } }
+        .btn-area { display: flex; flex-direction: column; gap: 8px; padding: 10px; }
+        .btn { background: #222; color: #fff; border: 2px solid var(--p-color); padding: 12px; border-radius: 10px; font-weight: bold; }
+        
+        .shout { position: absolute; font-weight: 900; pointer-events: none; animation: pop 0.5s forwards; z-index: 100; font-size: 28px; text-shadow: 2px 2px #000; }
+        @keyframes pop { 0% { transform: scale(0.5); opacity: 1; } 100% { transform: scale(1.2) translateY(-100px); opacity: 0; } }
 
-        /* フィーバー時の狂乱背景 */
-        .fever-mode { animation: crazy 0.05s infinite !important; background: radial-gradient(circle, #ff0, #f0f) !important; }
-        @keyframes crazy { 0% { transform: translate(2px, 2px); filter: hue-rotate(0deg); } 50% { transform: translate(-2px, -2px); filter: hue-rotate(180deg); } 100% { transform: translate(2px, -2px); } }
+        /* スタン状態の激怒演出 */
+        .stunned { background: #600 !important; animation: shake 0.1s infinite !important; filter: grayscale(1) contrast(2); }
+        @keyframes shake { 0%{left:4px} 50%{left:-4px} 100%{left:4px} }
     </style>
 </head>
 <body>
 
 <div id="stats">
-    <div>💰<span id="m">0</span></div>
+    <div>💰 <span id="m">0</span></div>
     <div id="fever-container"><div id="fever-bar"></div></div>
 </div>
 
 <div id="stage-container">
-    <div class="aura" id="aura"></div>
     <div id="stage">
         <div class="eye left"></div><div class="eye right"></div>
-        <div style="position:absolute; width:40px; height:60px; background:#e0ac69; border-radius:50%; top:150px; left:140px; opacity:0.8;"></div>
-        <div style="position:absolute; width:100px; height:40px; background:#822; border-radius:0 0 50px 50px; bottom:50px; left:110px; border:2px solid #000;"></div>
         <div id="hair-layer"></div>
     </div>
 </div>
 
 <div class="btn-area">
-    <button class="btn" onclick="buy('p')">強化 Lv.<span id="p-lv">1</span><br><span id="p-cost">50</span>ケ</button>
-    <button class="btn" onclick="buy('a')">自動 Lv.<span id="a-lv">0</span><br><span id="a-cost">150</span>ケ</button>
+    <button id="p-btn" class="btn" onclick="buy('p')">強化 Lv.<span id="p-lv">1</span> | <span id="p-cost">50</span></button>
+    <button id="a-btn" class="btn" onclick="buy('a')">自動 Lv.<span id="a-lv">0</span> | <span id="a-cost">150</span></button>
 </div>
 
 <script>
-    let m = 0, p = 1, a = 0, fever = 0, isFever = false;
-    const layer = document.getElementById('hair-layer'), stage = document.getElementById('stage'), aura = document.getElementById('aura');
+    let m = 0, p = 1, a = 0, fever = 0, isFever = false, isStunned = false;
+    const layer = document.getElementById('hair-layer'), stage = document.getElementById('stage');
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
 
-    function s(freq, type='sine', dur=0.1) {
-        try { const o=ctx.createOscillator(), g=ctx.createGain(); o.type=type; o.frequency.value=freq; g.gain.value=0.1; o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+dur); } catch(e){}
+    function s(f, t='sine', d=0.1) {
+        try { const o=ctx.createOscillator(), g=ctx.createGain(); o.type=t; o.frequency.value=f; g.gain.value=0.05; o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+d); } catch(e){}
+    }
+
+    // ニキビ召喚
+    function spawnNikibi() {
+        if(isFever || isStunned) return;
+        const n = document.createElement('div');
+        n.className = 'nikibi';
+        n.style.left = (Math.random()*240 + 40)+'px';
+        n.style.top = (Math.random()*200 + 40)+'px';
+        n.onclick = (e) => {
+            e.stopPropagation();
+            triggerStun();
+            n.remove();
+        };
+        layer.appendChild(n);
+        setTimeout(() => { if(n.parentNode) n.remove(); }, 2500); // すぐ消えるので注意が必要
+    }
+
+    function triggerStun() {
+        isStunned = true;
+        fever = 0; // フィーバーもリセット
+        s(80, 'sawtooth', 0.8);
+        stage.classList.add('stunned');
+        spawnText(160, 160, "激怒！禁忌接触", "#ff0000");
+        setTimeout(() => {
+            isStunned = false;
+            stage.classList.remove('stunned');
+        }, 2000);
+        update();
     }
 
     function add() {
         const d = document.createElement('div');
         let type = 'normal', hp = 1, val = 1;
         const rand = Math.random();
-        if (isFever) { type = 'gold'; val = 20; }
-        else if (p >= 10 && rand > 0.8) { type = 'gold'; val = 15; }
-        else if (p >= 5 && rand > 0.6) { type = 'hard'; hp = 3; val = 5; }
+
+        if (isFever) { type = 'gold'; val = 10; } 
+        else if (rand > 0.7) { 
+            type = 'hard'; 
+            hp = Math.floor(p * 1.5);
+            val = 5; 
+        }
 
         d.className = 'hair ' + type;
         d.style.left = (Math.random()*200 + 60)+'px';
@@ -97,22 +124,22 @@
         d.style.transform = `rotate(${(Math.random()-0.5)*80}deg)`;
         
         d.onclick = (e) => {
+            if(isStunned) return;
             e.stopPropagation();
             hp--;
-            // ヒットストップ演出
-            stage.style.transform = "scale(0.95)";
-            setTimeout(() => stage.style.transform = "scale(1)", 50);
+            stage.style.transform = "scale(0.96)";
+            setTimeout(() => stage.style.transform = "none", 50);
 
             if(hp <= 0) {
-                m += val * p;
-                if(!isFever) { fever += 4; if(fever >= 100) startFever(); }
-                s(isFever?1000:400, 'square');
-                spawnText(e.clientX, e.clientY, `+${val*p}`, type=='gold'?'#ff0':'#fff');
+                let gain = val * Math.pow(1.3, p-1);
+                m += gain;
+                if(!isFever) { fever += 6; if(fever >= 100) startFever(); }
+                s(isFever?900:400);
+                spawnText(e.clientX, e.clientY, `+${Math.floor(gain)}`, type=='gold'?'#ff0':var(--p-color));
                 d.remove(); add();
             } else {
-                s(150, 'sawtooth');
-                d.style.transform += " scale(1.3) rotate(10deg)";
-                spawnText(e.clientX, e.clientY, "硬い！", "#aaa");
+                s(150, 'square');
+                spawnText(e.clientX, e.clientY, "硬!", "#fff");
             }
             update();
         };
@@ -120,13 +147,13 @@
     }
 
     function startFever() {
-        isFever = true; stage.classList.add('fever-mode');
-        s(600, 'square', 0.5);
+        isFever = true; stage.style.filter = "hue-rotate(180deg) brightness(1.5)";
         document.querySelectorAll('.hair').forEach(h => h.remove());
-        for(let i=0; i<20; i++) add();
+        document.querySelectorAll('.nikibi').forEach(n => n.remove());
+        for(let i=0; i<18; i++) add();
         let fv = setInterval(() => {
-            fever -= 1.5;
-            if(fever <= 0) { clearInterval(fv); isFever = false; stage.classList.remove('fever-mode'); fever = 0; }
+            fever -= 2.5;
+            if(fever <= 0) { clearInterval(fv); isFever = false; stage.style.filter = ""; fever = 0; }
             update();
         }, 100);
     }
@@ -140,26 +167,31 @@
     }
 
     function buy(t) {
-        const cost = t=='p' ? p*50 : (a+1)*150;
+        let cost = t=='p' ? Math.floor(50 * Math.pow(1.8, p-1)) : Math.floor(150 * Math.pow(2.2, a));
         if(m >= cost) {
             m -= cost;
-            if(t=='p') { p++; aura.style.opacity = 1; setTimeout(()=>aura.style.opacity=0, 500); s(800,'square',0.3); spawnText(160, 160, "POWER UP!!", "#f1c40f"); }
-            else { a++; s(600); }
-            update();
+            if(t=='p') p++; else a++;
+            s(600); update();
         }
     }
 
     function update() {
+        const pCost = Math.floor(50 * Math.pow(1.8, p-1));
+        const aCost = Math.floor(150 * Math.pow(2.2, a));
         document.getElementById('m').innerText = Math.floor(m);
         document.getElementById('p-lv').innerText = p;
-        document.getElementById('p-cost').innerText = p * 50;
+        document.getElementById('p-cost').innerText = pCost;
         document.getElementById('a-lv').innerText = a;
-        document.getElementById('a-cost').innerText = (a + 1) * 150;
+        document.getElementById('a-cost').innerText = aCost;
         document.getElementById('fever-bar').style.width = fever + '%';
+        document.getElementById('p-btn').disabled = (m < pCost);
+        document.getElementById('a-btn').disabled = (m < aCost);
     }
 
-    for(let i=0; i<15; i++) add();
-    setInterval(() => { if(a>0){ const hs=document.querySelectorAll('.hair'); if(hs[0]) hs[0].click(); }}, 1000 / Math.max(1, a*2));
+    for(let i=0; i<12; i++) add();
+    setInterval(spawnNikibi, 4000); // 4秒おきにニキビ降臨
+    setInterval(() => { if(a>0 && !isStunned){ const hs=document.querySelectorAll('.hair'); if(hs[0]) hs[0].click(); }}, 1000 / Math.max(1, a));
+    setInterval(() => { if(layer.querySelectorAll('.hair').length < 8) add(); }, 1500);
 </script>
 </body>
 </html>
