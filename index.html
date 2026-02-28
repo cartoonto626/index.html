@@ -1,63 +1,74 @@
->
+<!DOCTYPE html>
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-browser-capable" content="yes">
     <meta name="apple-mobile-web-browser-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="http://googleusercontent.com/generated_image_content/0">
     <title>毛根サバイバー</title>
     <style>
         body { background: #1a1a1a; color: #fff; font-family: sans-serif; margin: 0; overflow: hidden; touch-action: manipulation; text-align: center; }
-        #stats { background: #333; padding: 15px; font-size: 18px; border-bottom: 3px solid #f1c40f; color: #f1c40f; display: flex; justify-content: space-around; padding-top: 50px; }
-        #stage { position: relative; width: 320px; height: 320px; margin: 20px auto; border-radius: 20px; overflow: hidden; border: 4px solid #444; }
-        #ojisan-img { width: 100%; height: 100%; object-fit: cover; }
-        #hair-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
-        .hair { position: absolute; width: 5px; height: 45px; background: #000; border-radius: 4px; pointer-events: auto; z-index: 10; transform-origin: bottom center; }
+        #stats { background: #333; padding: 15px; font-size: 18px; border-bottom: 3px solid #f1c40f; color: #f1c40f; display: flex; justify-content: space-around; padding-top: 60px; }
+        
+        /* おじさんの顔をCSSだけで作成（画像不要！） */
+        #stage { position: relative; width: 300px; height: 300px; margin: 20px auto; border-radius: 20px; overflow: hidden; border: 4px solid #444; background: #ffdbac; }
+        .face { position: absolute; width: 100%; height: 100%; }
+        .eye { position: absolute; width: 40px; height: 15px; background: #fff; border-radius: 50%; top: 130px; border: 2px solid #333; }
+        .eye.left { left: 60px; } .eye.right { right: 60px; }
+        .eye::after { content: ''; position: absolute; width: 12px; height: 12px; background: #000; border-radius: 50%; left: 14px; top: 1px; }
+        .nose { position: absolute; width: 35px; height: 50px; background: #efc19a; border-radius: 40%; top: 145px; left: 132px; border: 1px solid #d4a373; }
+        .mouth { position: absolute; width: 80px; height: 40px; border-bottom: 5px solid #a44; border-radius: 50%; bottom: 60px; left: 110px; }
+        
+        #hair-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
+        .hair { position: absolute; width: 5px; height: 45px; background: #000; border-radius: 4px; pointer-events: auto; transform-origin: bottom center; }
         .boss { width: 12px !important; height: 75px !important; background: linear-gradient(to bottom, #444, #f00) !important; filter: drop-shadow(0 0 5px red); }
+        
         .btn-area { display: flex; justify-content: center; gap: 10px; padding: 10px; }
         .btn { background: #444; color: #fff; border: 2px solid #fff; padding: 15px; border-radius: 12px; font-weight: bold; flex: 1; font-size: 14px; }
-        .btn:active { background: #f1c40f; color: #000; }
-        .shout { position: absolute; color: #ff4444; font-weight: bold; pointer-events: none; animation: up 0.5s ease-out forwards; font-size: 24px; z-index: 100; text-shadow: 2px 2px #000; }
-        @keyframes up { 0% { transform: translateY(0) scale(1); opacity:1; } 100% { transform: translateY(-80px) scale(1.2); opacity:0; } }
-        #fever-container { width: 100px; background: #444; height: 12px; margin-top: 8px; border-radius: 6px; overflow: hidden; }
-        #fever-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #f0f, #0ff); transition: width 0.2s; }
+        .shout { position: absolute; color: #ff4444; font-weight: bold; pointer-events: none; animation: up 0.5s forwards; font-size: 24px; text-shadow: 2px 2px #000; z-index: 100; }
+        @keyframes up { 0% { transform: translateY(0); opacity:1; } 100% { transform: translateY(-80px); opacity:0; } }
     </style>
 </head>
 <body>
 
 <div id="stats">
     <span>💰 <span id="m">0</span> ケ</span>
-    <div id="fever-container"><div id="fever-bar"></div></div>
+    <span>Lv <span id="lv-p">1</span></span>
 </div>
 
 <div id="stage">
-    <img id="ojisan-img" src="http://googleusercontent.com/generated_image_content/0" alt="ojisan">
+    <div class="face">
+        <div class="eye left"></div>
+        <div class="eye right"></div>
+        <div class="nose"></div>
+        <div class="mouth"></div>
+    </div>
     <div id="hair-layer"></div>
 </div>
 
 <div class="btn-area">
-    <button class="btn" onclick="buy('p')">ピンセットLv<span id="lv-p">1</span><br>(50ケ)</button>
+    <button class="btn" onclick="buy('p')">ピンセット強化<br>(50ケ)</button>
     <button class="btn" onclick="buy('a')">自動脱毛機<br>(150ケ)</button>
 </div>
 
 <script>
-    let m=0, f=0, p=1, a=0;
+    let m=0, p=1, a=0;
     const layer = document.getElementById('hair-layer');
     const stage = document.getElementById('stage');
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
 
-    function s(freq, type='square') {
+    function s(freq) {
         const o=ctx.createOscillator(); const g=ctx.createGain();
-        o.type=type; o.frequency.value=freq; g.gain.value=0.05;
+        o.frequency.value=freq; g.gain.value=0.05;
         o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.1);
     }
 
     function add(isB=false) {
         const d = document.createElement('div');
         d.className = isB ? 'hair boss' : 'hair';
-        d.style.left = (Math.random()*160 + 80)+'px';
-        d.style.top = (Math.random()*60 + 20)+'px';
-        d.style.transform = `rotate(${(Math.random()-0.5)*30}deg)`;
+        d.style.left = (Math.random()*200 + 50)+'px';
+        d.style.top = (Math.random()*80 + 10)+'px';
+        d.style.transform = `rotate(${(Math.random()-0.5)*40}deg)`;
         
         let hp = isB ? 10 : 1;
         d.onclick = (e) => {
@@ -67,13 +78,11 @@
 
             if(hp <= 0) {
                 d.remove(); m += isB?30:1; 
-                if(f < 100) f += isB?20:5;
                 s(isB?400:150);
-                if(f >= 100) fever();
                 add(); 
             } else {
-                s(80, 'sine');
-                spawnText(e.clientX, e.clientY, isB ? "硬い！" : "痛ッ！");
+                s(80);
+                spawnText(e.clientX, e.clientY, "痛ッ！");
             }
             update();
         };
@@ -88,13 +97,6 @@
         setTimeout(()=>div.remove(), 500);
     }
 
-    function fever() {
-        f = 0; s(500, 'sawtooth');
-        for(let i=0; i<25; i++) add();
-        document.body.style.background = "#f0f";
-        setTimeout(()=>document.body.style.background = "#1a1a1a", 300);
-    }
-
     function buy(t) {
         if(t=='p' && m>=50){ m-=50; p++; s(300); }
         if(t=='a' && m>=150){ m-=150; a++; s(300); }
@@ -103,15 +105,17 @@
 
     function update() {
         document.getElementById('m').innerText = Math.floor(m);
-        document.getElementById('fever-bar').style.width = f + "%";
         document.getElementById('lv-p').innerText = p;
     }
 
+    // 最初から15本生やす
     for(let i=0; i<15; i++) add();
+    // 5秒ごとに太い毛（ボス）のチャンス
     setInterval(() => { if(Math.random()>0.7) add(true); }, 5000);
+    // 自動脱毛
     setInterval(() => { if(a>0){ 
         const hs=document.getElementsByClassName('hair'); 
-        if(hs[0]) { hs[0].click(); m += (a-1)*0.1; }
+        if(hs[0]) hs[0].click();
     }}, 1000);
 </script>
 </body>
