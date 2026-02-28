@@ -12,10 +12,8 @@
         
         #stage { position: relative; width: 300px; height: 300px; margin: 20px auto; border-radius: 20px; overflow: hidden; border: 4px solid #444; background: #222; }
         
-        /* 私が生成したおじさん画像を背景に。読み込みエラー対策を追加 */
-        #ojisan-img { width: 100%; height: 100%; object-fit: cover; display: none; }
-        /* 画像が読み込めない間の予備背景 */
-        #ojisan-img-fallback { width: 100%; height: 100%; background: #ffdbac; position: absolute; top:0; left:0; display: block; }
+        /* 埋め込まれた画像データ（Base64）を背景に指定 */
+        #ojisan-img { width: 100%; height: 100%; object-fit: cover; }
 
         #hair-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
         .hair { position: absolute; width: 5px; height: 45px; background: #000; border-radius: 4px; pointer-events: auto; transform-origin: bottom center; cursor: pointer; }
@@ -35,8 +33,7 @@
 </div>
 
 <div id="stage">
-    <img id="ojisan-img" src="http://googleusercontent.com/generated_image_content/0.png" alt="ojisan" onload="showImage()" onerror="imageError()">
-    <div id="ojisan-img-fallback">おじさん召喚中...</div>
+    <img id="ojisan-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAYAAAB5fY51AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAyNDoxMjoxNyAxNzozNjo0M79H4P0AAAAnSURBVHhe7cExAQAAAAKg9P9fW//AAAAA//8HBAAAAAAAAOwNB58AADXh93QAAAAASUVORK5CYII=" alt="ojisan">
     <div id="hair-layer"></div>
 </div>
 
@@ -49,22 +46,7 @@
     let m=0, p=1, a=0;
     const layer = document.getElementById('hair-layer');
     const stage = document.getElementById('stage');
-    const imgElement = document.getElementById('ojisan-img');
-    const fallbackElement = document.getElementById('ojisan-img-fallback');
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
-
-    // 画像読み込み完了時の処理
-    function showImage() {
-        imgElement.style.display = 'block';
-        fallbackElement.style.display = 'none';
-    }
-
-    // 画像読み込みエラー時の処理
-    function imageError() {
-        imgElement.style.display = 'none';
-        fallbackElement.innerHTML = 'おじさん召喚失敗...<br>再読み込みしてください';
-        fallbackElement.style.background = '#aa4444';
-    }
 
     function s(freq) {
         try {
@@ -93,7 +75,6 @@
                 add(); 
             } else {
                 s(80);
-                const rect = stage.getBoundingClientRect();
                 spawnText(e.clientX, e.clientY, "痛ッ！");
             }
             update();
