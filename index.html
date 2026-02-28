@@ -5,47 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-browser-capable" content="yes">
     <meta name="apple-mobile-web-browser-status-bar-style" content="black-translucent">
-    <title>毛根サバイバー：真・完結編</title>
+    <title>毛根サバイバー：絶望篇</title>
     <style>
-        body { background: #1a1a1a; color: #fff; font-family: sans-serif; margin: 0; overflow: hidden; touch-action: manipulation; text-align: center; }
-        #stats { background: #333; padding: 15px; font-size: 18px; border-bottom: 3px solid #f1c40f; color: #f1c40f; display: flex; justify-content: space-around; padding-top: 60px; }
+        body { background: #000; color: #fff; font-family: sans-serif; margin: 0; overflow: hidden; touch-action: manipulation; text-align: center; }
+        #stats { background: #222; padding: 15px; font-size: 18px; border-bottom: 2px solid #555; color: #f1c40f; display: flex; justify-content: space-around; padding-top: 60px; }
         
-        /* AIアートの質感を再現する高度なCSS描画 */
+        /* リアルな質感のおじさんヘッド */
         #stage { 
-            position: relative; width: 320px; height: 320px; margin: 20px auto; 
-            border-radius: 60px 60px 110px 110px; overflow: hidden; border: 4px solid #333;
-            background: radial-gradient(circle at 50% 40%, #ffdbac 0%, #f1c27d 70%, #e0ac69 100%);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.6), inset 0 -10px 20px rgba(0,0,0,0.2);
+            position: relative; width: 320px; height: 350px; margin: 20px auto; 
+            border-radius: 80px 80px 140px 140px; overflow: hidden;
+            /* 脂ぎった肌のグラデーション */
+            background: radial-gradient(circle at 50% 30%, #ffdbac 0%, #f1c27d 50%, #d4a373 100%);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), inset 0 -20px 30px rgba(0,0,0,0.3);
+            border: 2px solid #5d4037;
         }
-        
-        /* リアルな目 */
-        .eye { position: absolute; width: 50px; height: 40px; background: #fff; border-radius: 50%; top: 120px; border: 1px solid #666; box-shadow: inset 0 3px 5px rgba(0,0,0,0.2); }
-        .eye.left { left: 60px; transform: rotate(-8deg); }
-        .eye.right { right: 60px; transform: rotate(8deg); }
-        .eye::after { content: ''; position: absolute; width: 18px; height: 18px; background: #222; border-radius: 50%; left: 16px; top: 12px; }
-        
-        /* 困り眉 */
-        .eyebrow { position: absolute; width: 60px; height: 12px; background: #4a3728; top: 100px; border-radius: 20px; opacity: 0.8; }
-        .eyebrow.left { left: 50px; transform: rotate(-25deg); }
-        .eyebrow.right { right: 50px; transform: rotate(25deg); }
 
-        /* リアルな鼻（影付き） */
-        .nose { position: absolute; width: 45px; height: 65px; background: #e0ac69; border-radius: 40% 40% 55% 55%; top: 145px; left: 137px; box-shadow: 2px 4px 10px rgba(0,0,0,0.3); border: 1px solid #d4a373; }
+        /* 充血した、絶望的な目 */
+        .eye { position: absolute; width: 60px; height: 45px; background: #fff; border-radius: 50%; top: 130px; border: 1px solid #999; box-shadow: inset 0 0 10px #fdd; }
+        .eye.left { left: 55px; transform: rotate(-10deg); }
+        .eye.right { right: 55px; transform: rotate(10deg); }
+        .eye::after { content: ''; position: absolute; width: 22px; height: 22px; background: #111; border-radius: 50%; left: 19px; top: 12px; border: 2px solid #444; }
+        /* 目の下のクマ */
+        .kuma { position: absolute; width: 70px; height: 20px; background: rgba(139, 69, 19, 0.2); border-radius: 50%; top: 175px; filter: blur(5px); }
+        .kuma.left { left: 50px; } .kuma.right { right: 50px; }
+
+        /* 激しく困っている眉 */
+        .eyebrow { position: absolute; width: 70px; height: 15px; background: #3e2723; top: 105px; border-radius: 50%; opacity: 0.9; filter: blur(1px); }
+        .eyebrow.left { left: 40px; transform: rotate(-35deg); }
+        .eyebrow.right { right: 40px; transform: rotate(35deg); }
+
+        /* 赤ら顔の鼻 */
+        .nose { position: absolute; width: 50px; height: 75px; background: radial-gradient(circle, #e57373 0%, #d4a373 80%); border-radius: 40% 40% 60% 60%; top: 160px; left: 135px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); border: 1px solid #8d6e63; }
         
-        /* 絶望している口 */
-        .mouth { position: absolute; width: 110px; height: 45px; background: #5a1a1a; border-radius: 10px 10px 60px 60px; bottom: 45px; left: 105px; border: 2px solid #222; overflow: hidden; box-shadow: inset 0 5px 10px rgba(0,0,0,0.5); }
-        .mouth::before { content: ''; position: absolute; width: 90px; height: 15px; background: #eee; top: 0; left: 10px; border-radius: 0 0 8px 8px; }
+        /* 半開きの絶望した口 */
+        .mouth { position: absolute; width: 120px; height: 50px; background: #4e1a1a; border-radius: 10px 10px 80px 80px; bottom: 55px; left: 100px; border: 3px solid #222; overflow: hidden; box-shadow: inset 0 8px 15px #000; }
+        .mouth::before { content: ''; position: absolute; width: 100px; height: 18px; background: #ddd; top: 0; left: 10px; border-radius: 0 0 10px 10px; box-shadow: inset 0 -2px 5px #999; }
 
         #hair-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
-        .hair { position: absolute; width: 6px; height: 50px; background: #111; border-radius: 10px; pointer-events: auto; transform-origin: bottom center; cursor: pointer; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.4)); }
-        .boss { width: 14px !important; height: 85px !important; background: linear-gradient(to bottom, #333, #ff0000) !important; filter: drop-shadow(0 0 10px #ff0000); }
+        .hair { position: absolute; width: 5px; height: 55px; background: #000; border-radius: 10px; pointer-events: auto; transform-origin: bottom center; cursor: pointer; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.6)); }
+        .boss { width: 14px !important; height: 90px !important; background: linear-gradient(to bottom, #222, #ff0000) !important; filter: drop-shadow(0 0 12px #ff0000); border-radius: 50% 50% 0 0; }
         
-        .btn-area { display: flex; justify-content: center; gap: 10px; padding: 10px; }
-        .btn { background: #444; color: #fff; border: 2px solid #666; padding: 15px; border-radius: 15px; font-weight: bold; flex: 1; font-size: 14px; box-shadow: 0 4px 0 #000; }
-        .btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #000; background: #f1c40f; color: #000; }
+        .btn-area { display: flex; justify-content: center; gap: 10px; padding: 15px; background: #111; }
+        .btn { background: #333; color: #fff; border: 1px solid #555; padding: 18px; border-radius: 15px; font-weight: bold; flex: 1; font-size: 14px; box-shadow: 0 5px 0 #000; }
+        .btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #000; background: #f1c40f; color: #000; }
         
-        .shout { position: absolute; color: #ff3333; font-weight: bold; pointer-events: none; animation: up 0.7s ease-out forwards; font-size: 30px; text-shadow: 2px 2px 0 #000, -1px -1px 0 #000; z-index: 100; }
-        @keyframes up { 0% { transform: translateY(0) scale(0.8); opacity:1; } 100% { transform: translateY(-120px) scale(1.4); opacity:0; } }
+        .shout { position: absolute; color: #ff2222; font-weight: bold; pointer-events: none; animation: up 0.8s ease-out forwards; font-size: 32px; text-shadow: 2px 2px 0 #000, -2px -2px 0 #000; z-index: 100; font-style: italic; }
+        @keyframes up { 0% { transform: translateY(0) scale(0.5) rotate(-10deg); opacity:1; } 100% { transform: translateY(-150px) scale(1.5) rotate(10deg); opacity:0; } }
     </style>
 </head>
 <body>
@@ -56,6 +61,7 @@
 </div>
 
 <div id="stage">
+    <div class="kuma left"></div><div class="kuma right"></div>
     <div class="eyebrow left"></div><div class="eyebrow right"></div>
     <div class="eye left"></div><div class="eye right"></div>
     <div class="nose"></div>
@@ -77,7 +83,7 @@
     function s(freq, type='sine') {
         try {
             const o=ctx.createOscillator(); const g=ctx.createGain();
-            o.type=type; o.frequency.value=freq; g.gain.value=0.05;
+            o.type=type; o.frequency.value=freq; g.gain.value=0.04;
             o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.1);
         } catch(e){}
     }
@@ -85,22 +91,22 @@
     function add(isB=false) {
         const d = document.createElement('div');
         d.className = isB ? 'hair boss' : 'hair';
-        d.style.left = (Math.random()*180 + 70)+'px';
-        d.style.top = (Math.random()*60 + 10)+'px';
-        d.style.transform = `rotate(${(Math.random()-0.5)*70}deg)`;
+        d.style.left = (Math.random()*200 + 60)+'px';
+        d.style.top = (Math.random()*70 + 10)+'px';
+        d.style.transform = `rotate(${(Math.random()-0.5)*80}deg)`;
         
         let hp = isB ? 12 : 1;
         d.onclick = (e) => {
             hp -= p;
-            stage.style.transform = `translate(${(Math.random()-0.5)*20}px, ${(Math.random()-0.5)*20}px)`;
+            stage.style.transform = `translate(${(Math.random()-0.5)*25}px, ${(Math.random()-0.5)*25}px)`;
             setTimeout(()=>stage.style.transform='none', 50);
 
             if(hp <= 0) {
                 d.remove(); m += isB?35:1; 
-                s(isB?150:400, 'square');
+                s(isB?120:450, 'square');
                 add(); 
             } else {
-                s(80, 'sawtooth');
+                s(70, 'sawtooth');
                 spawnText(e.clientX, e.clientY, "痛ッ！");
             }
             update();
@@ -111,9 +117,9 @@
     function spawnText(x, y, txt) {
         const div = document.createElement('div');
         div.className = 'shout'; div.innerText = txt;
-        div.style.left = (x - 30) + 'px'; div.style.top = (y - 50) + 'px';
+        div.style.left = (x - 40) + 'px'; div.style.top = (y - 60) + 'px';
         document.body.appendChild(div);
-        setTimeout(()=>div.remove(), 700);
+        setTimeout(()=>div.remove(), 800);
     }
 
     function buy(t) {
@@ -127,12 +133,12 @@
         document.getElementById('lv-p').innerText = p;
     }
 
-    for(let i=0; i<15; i++) add();
-    setInterval(() => { if(Math.random()>0.8) add(true); }, 4000);
+    for(let i=0; i<18; i++) add();
+    setInterval(() => { if(Math.random()>0.8) add(true); }, 3500);
     setInterval(() => { if(a>0){ 
         const hs=document.getElementsByClassName('hair'); 
         if(hs[0]) hs[0].click();
-    }}, 800);
+    }}, 750);
 </script>
 </body>
 </html>
