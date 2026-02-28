@@ -5,24 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-browser-capable" content="yes">
     <meta name="apple-mobile-web-browser-status-bar-style" content="black-translucent">
-    <title>毛根サバイバー</title>
+    <title>毛根サバイバー：完結編</title>
     <style>
         body { background: #1a1a1a; color: #fff; font-family: sans-serif; margin: 0; overflow: hidden; touch-action: manipulation; text-align: center; }
         #stats { background: #333; padding: 15px; font-size: 18px; border-bottom: 3px solid #f1c40f; color: #f1c40f; display: flex; justify-content: space-around; padding-top: 60px; }
         
-        #stage { position: relative; width: 300px; height: 300px; margin: 20px auto; border-radius: 20px; overflow: hidden; border: 4px solid #444; background: #222; }
+        /* おじさんをコードで描画：あのアートワークを再現 */
+        #stage { position: relative; width: 300px; height: 320px; margin: 20px auto; border-radius: 50px 50px 100px 100px; overflow: hidden; border: 4px solid #444; background: radial-gradient(circle, #ffdbac 60%, #efc19a); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
         
-        /* 埋め込まれた画像データ（Base64）を背景に指定 */
-        #ojisan-img { width: 100%; height: 100%; object-fit: cover; }
+        .eye { position: absolute; width: 45px; height: 35px; background: #fff; border-radius: 50%; top: 120px; border: 2px solid #333; }
+        .eye.left { left: 60px; transform: rotate(-5deg); }
+        .eye.right { right: 60px; transform: rotate(5deg); }
+        .eye::after { content: ''; position: absolute; width: 15px; height: 15px; background: #000; border-radius: 50%; left: 15px; top: 10px; }
+        
+        .eyebrow { position: absolute; width: 50px; height: 10px; background: #444; top: 100px; border-radius: 5px; }
+        .eyebrow.left { left: 55px; transform: rotate(-15deg); }
+        .eyebrow.right { right: 55px; transform: rotate(15deg); }
+
+        .nose { position: absolute; width: 40px; height: 60px; background: #efc19a; border-radius: 40% 40% 50% 50%; top: 140px; left: 130px; border: 1px solid #d4a373; box-shadow: inset 0 -5px 10px rgba(0,0,0,0.1); }
+        .mouth { position: absolute; width: 100px; height: 50px; background: #822; border-radius: 10px 10px 50px 50px; bottom: 50px; left: 100px; border: 3px solid #333; overflow: hidden; }
+        .mouth::before { content: ''; position: absolute; width: 80px; height: 20px; background: #fff; top: 0; left: 10px; border-radius: 0 0 5px 5px; } /* 歯 */
 
         #hair-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
-        .hair { position: absolute; width: 5px; height: 45px; background: #000; border-radius: 4px; pointer-events: auto; transform-origin: bottom center; cursor: pointer; }
-        .boss { width: 12px !important; height: 75px !important; background: linear-gradient(to bottom, #444, #f00) !important; filter: drop-shadow(0 0 5px red); }
+        .hair { position: absolute; width: 6px; height: 50px; background: #000; border-radius: 10px; pointer-events: auto; transform-origin: bottom center; cursor: pointer; filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5)); }
+        .boss { width: 14px !important; height: 80px !important; background: linear-gradient(to bottom, #444, #f00) !important; filter: drop-shadow(0 0 8px red); }
         
         .btn-area { display: flex; justify-content: center; gap: 10px; padding: 10px; }
-        .btn { background: #444; color: #fff; border: 2px solid #fff; padding: 15px; border-radius: 12px; font-weight: bold; flex: 1; font-size: 14px; }
-        .shout { position: absolute; color: #ff4444; font-weight: bold; pointer-events: none; animation: up 0.5s forwards; font-size: 24px; text-shadow: 2px 2px #000; z-index: 100; }
-        @keyframes up { 0% { transform: translateY(0); opacity:1; } 100% { transform: translateY(-80px); opacity:0; } }
+        .btn { background: #444; color: #fff; border: 2px solid #fff; padding: 15px; border-radius: 12px; font-weight: bold; flex: 1; font-size: 14px; box-shadow: 0 4px 0 #222; }
+        .btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #222; background: #f1c40f; color: #000; }
+        
+        .shout { position: absolute; color: #ff4444; font-weight: bold; pointer-events: none; animation: up 0.6s ease-out forwards; font-size: 28px; text-shadow: 2px 2px #000; z-index: 100; }
+        @keyframes up { 0% { transform: translateY(0) scale(1); opacity:1; } 100% { transform: translateY(-100px) scale(1.5); opacity:0; } }
     </style>
 </head>
 <body>
@@ -33,7 +46,10 @@
 </div>
 
 <div id="stage">
-    <img id="ojisan-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAYAAAB5fY51AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAhdEVYdENyZWF0aW9uIFRpbWUAMjAyNDoxMjoxNyAxNzozNjo0M79H4P0AAAAnSURBVHhe7cExAQAAAAKg9P9fW//AAAAA//8HBAAAAAAAAOwNB58AADXh93QAAAAASUVORK5CYII=" alt="ojisan">
+    <div class="eyebrow left"></div><div class="eyebrow right"></div>
+    <div class="eye left"></div><div class="eye right"></div>
+    <div class="nose"></div>
+    <div class="mouth"></div>
     <div id="hair-layer"></div>
 </div>
 
@@ -48,10 +64,10 @@
     const stage = document.getElementById('stage');
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
 
-    function s(freq) {
+    function s(freq, type='sine') {
         try {
             const o=ctx.createOscillator(); const g=ctx.createGain();
-            o.frequency.value=freq; g.gain.value=0.05;
+            o.type=type; o.frequency.value=freq; g.gain.value=0.05;
             o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.1);
         } catch(e){}
     }
@@ -59,22 +75,22 @@
     function add(isB=false) {
         const d = document.createElement('div');
         d.className = isB ? 'hair boss' : 'hair';
-        d.style.left = (Math.random()*180 + 60)+'px';
-        d.style.top = (Math.random()*60 + 10)+'px';
-        d.style.transform = `rotate(${(Math.random()-0.5)*40}deg)`;
+        d.style.left = (Math.random()*160 + 70)+'px';
+        d.style.top = (Math.random()*50 + 10)+'px';
+        d.style.transform = `rotate(${(Math.random()-0.5)*60}deg)`;
         
         let hp = isB ? 10 : 1;
         d.onclick = (e) => {
             hp -= p;
-            stage.style.transform = `translate(${(Math.random()-0.5)*10}px, ${(Math.random()-0.5)*10}px)`;
+            stage.style.transform = `translate(${(Math.random()-0.5)*15}px, ${(Math.random()-0.5)*15}px)`;
             setTimeout(()=>stage.style.transform='none', 50);
 
             if(hp <= 0) {
                 d.remove(); m += isB?30:1; 
-                s(isB?400:150);
+                s(isB?200:400, 'square');
                 add(); 
             } else {
-                s(80);
+                s(100, 'sawtooth');
                 spawnText(e.clientX, e.clientY, "痛ッ！");
             }
             update();
@@ -85,14 +101,14 @@
     function spawnText(x, y, txt) {
         const div = document.createElement('div');
         div.className = 'shout'; div.innerText = txt;
-        div.style.left = x + 'px'; div.style.top = y + 'px';
+        div.style.left = (x - 20) + 'px'; div.style.top = (y - 40) + 'px';
         document.body.appendChild(div);
-        setTimeout(()=>div.remove(), 500);
+        setTimeout(()=>div.remove(), 600);
     }
 
     function buy(t) {
-        if(t=='p' && m>=50){ m-=50; p++; s(300); }
-        if(t=='a' && m>=150){ m-=150; a++; s(300); }
+        if(t=='p' && m>=50){ m-=50; p++; s(600); }
+        if(t=='a' && m>=150){ m-=150; a++; s(800); }
         update();
     }
 
@@ -102,7 +118,7 @@
     }
 
     for(let i=0; i<15; i++) add();
-    setInterval(() => { if(Math.random()>0.8) add(true); }, 5000);
+    setInterval(() => { if(Math.random()>0.85) add(true); }, 4000);
     setInterval(() => { if(a>0){ 
         const hs=document.getElementsByClassName('hair'); 
         if(hs[0]) hs[0].click();
